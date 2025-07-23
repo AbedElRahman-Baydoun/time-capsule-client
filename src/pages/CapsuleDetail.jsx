@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getCapsuleById } from '../services/capsuleService';
+import CountdownTimer from '../components/CountdownTimer';
 
 export default function CapsuleDetail() {
   const { id } = useParams();
@@ -36,6 +37,12 @@ export default function CapsuleDetail() {
         <p><strong>Mood:</strong> {capsule.mood}</p>
         <p><strong>Message:</strong> {capsule.message}</p>
         <p><strong>Reveal Time:</strong> {new Date(capsule.reveal_at).toLocaleString()}</p>
+
+        {new Date(capsule.reveal_at) > new Date() ? (
+          <CountdownTimer targetDate={capsule.reveal_at} />
+        ) : (
+          <p className="countdown-expired">This capsule is revealed.</p>
+        )}
 
         {capsule.media_type === 'image' && capsule.media_file_path && (
           <img src={capsule.media_file_path} alt="Capsule Media" className="capsule-media" />
