@@ -1,10 +1,12 @@
+/* Reset */
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(145deg, #f0f4ff, #ffffff);
+  background-color: #f4f7fe;
   color: #222;
 }
 
+/* Auth Pages (login, register, forgot password) */
 .auth-container {
   display: flex;
   justify-content: center;
@@ -14,12 +16,12 @@ body {
 }
 
 .auth-form {
-  background-color: #fff;
+  background: white;
   padding: 48px 32px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   width: 100%;
   max-width: 420px;
-  border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -37,7 +39,6 @@ body {
   font-size: 15px;
   border: 1px solid #ccc;
   border-radius: 10px;
-  transition: border-color 0.2s;
 }
 
 .auth-form input:focus {
@@ -80,4 +81,59 @@ body {
 
 .auth-links a:hover {
   text-decoration: underline;
+}
+
+/* Home page layout */
+.page-container {
+  padding: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.page-container h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.capsule-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.capsule-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  color: #1f1f1f;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.capsule-card:hover {
+  transform: translateY(-4px);
+}
+
+.capsule-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.capsule-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.emoji {
+  font-size: 22px;
+}
+
+.reveal-date {
+  display: block;
+  font-size: 13px;
+  margin-top: 8px;
+  color: #555;
 }
