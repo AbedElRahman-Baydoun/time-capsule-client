@@ -14,6 +14,7 @@ export default function CreateCapsule() {
     color: '#f2f2f2',
     reveal_at: '',
     privacy: 'private',
+    surprise_mode: false,
   });
 
   const [media, setMedia] = useState(null);
@@ -22,8 +23,11 @@ export default function CreateCapsule() {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setForm(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -57,14 +61,14 @@ export default function CreateCapsule() {
 
         <label>Color</label>
         <ColorPicker
-            selected={form.color}
-            onChange={(value) => setForm(prev => ({ ...prev, color: value }))}
+          selected={form.color}
+          onChange={(value) => setForm(prev => ({ ...prev, color: value }))}
         />
 
         <label>Mood</label>
         <MoodPicker
-            selected={form.mood}
-            onChange={value => setForm(prev => ({ ...prev, mood: value }))}
+          selected={form.mood}
+          onChange={value => setForm(prev => ({ ...prev, mood: value }))}
         />
 
         <label>Reveal Date</label>
@@ -77,6 +81,17 @@ export default function CreateCapsule() {
           <option value="unlisted">Unlisted</option>
         </select>
 
+        <label>Surprise Mode</label>
+        <input
+          type="checkbox"
+          name="surprise_mode"
+          checked={form.surprise_mode}
+          onChange={handleChange}
+        />
+        <span style={{ fontSize: '14px', marginLeft: '8px' }}>
+          Hide countdown and reveal time
+        </span>
+
         <label>Media Type</label>
         <select value={mediaType} onChange={e => setMediaType(e.target.value)}>
           <option value="text">Text</option>
@@ -85,7 +100,6 @@ export default function CreateCapsule() {
         </select>
 
         <input type="file" accept={mediaType + '/*'} onChange={e => setMedia(e.target.files[0])} />
-
         <MediaPreview file={media} type={mediaType} />
 
         <button type="submit" disabled={loading}>

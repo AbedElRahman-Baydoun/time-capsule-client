@@ -13,7 +13,6 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 export default function AppRoutes() {
   return (
-    <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -42,6 +41,5 @@ export default function AppRoutes() {
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
-    </Router>
   );
 }

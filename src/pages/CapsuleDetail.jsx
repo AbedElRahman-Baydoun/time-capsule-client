@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getCapsuleById } from '../services/capsuleService';
+import { getCapsuleById, exportCapsuleZip } from '../services/capsuleService';
 import CountdownTimer from '../components/CountdownTimer';
 
 export default function CapsuleDetail() {
@@ -23,6 +23,22 @@ export default function CapsuleDetail() {
     fetchCapsule();
   }, [id]);
 
+  const handleExport = async () => {
+    try {
+      const response = await exportCapsuleZip(capsule.id);
+      const blob = new Blob([response.data], { type: 'application/zip' });
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${capsule.title || 'capsule'}.zip`;
+      link.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      alert('Export failed.');
+    }
+  };
+
   if (loading) return <div className="page-container">Loading capsule...</div>;
   if (!capsule) return <div className="page-container">Capsule not found.</div>;
 
@@ -36,12 +52,16 @@ export default function CapsuleDetail() {
 
         <p><strong>Mood:</strong> {capsule.mood}</p>
         <p><strong>Message:</strong> {capsule.message}</p>
-        <p><strong>Reveal Time:</strong> {new Date(capsule.reveal_at).toLocaleString()}</p>
 
-        {new Date(capsule.reveal_at) > new Date() ? (
-          <CountdownTimer targetDate={capsule.reveal_at} />
+        {!capsule.surprise_mode ? (
+          <>
+            <p><strong>Reveal Time:</strong> {new Date(capsule.reveal_at).toLocaleString()}</p>
+            {new Date(capsule.reveal_at) > new Date() && (
+              <CountdownTimer targetDate={capsule.reveal_at} />
+            )}
+          </>
         ) : (
-          <p className="countdown-expired">This capsule is revealed.</p>
+          <p className="surprise-text">🎁 This capsule will be revealed at a surprise moment.</p>
         )}
 
         {capsule.media_type === 'image' && capsule.media_file_path && (
@@ -57,6 +77,10 @@ export default function CapsuleDetail() {
             <a href={capsule.media_file_path} target="_blank" rel="noreferrer">View text attachment</a>
           </div>
         )}
+
+        <button onClick={handleExport} className="cta-button" style={{ marginTop: '20px' }}>
+          Download Capsule ZIP
+        </button>
       </div>
     </div>
   );
