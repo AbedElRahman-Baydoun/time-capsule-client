@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { filterWallCapsules } from '../services/capsuleService';
+import CapsuleCard from '../components/CapsuleCard';
 
 export default function Home() {
   const [capsules, setCapsules] = useState([]);
@@ -73,14 +74,7 @@ export default function Home() {
 
       <div className="capsule-list">
         {capsules.map(capsule => (
-          <div key={capsule.id} className="capsule-card" style={{ backgroundColor: capsule.color || '#2c2c2c' }}>
-            <div className="capsule-header">
-              <span className="emoji">{capsule.emoji || '📦'}</span>
-              <h3>{capsule.title || 'Untitled'}</h3>
-            </div>
-            <p>{capsule.message?.slice(0, 70)}...</p>
-            <span className="reveal-date">Reveal Date: {new Date(capsule.reveal_at).toLocaleDateString()}</span>
-          </div>
+            <CapsuleCard key={capsule.id} capsule={capsule} />
         ))}
       </div>
     </div>
