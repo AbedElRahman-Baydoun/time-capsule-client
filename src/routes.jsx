@@ -39,8 +39,8 @@ export default function AppRoutes() {
           path="/capsule/share/:token"
           element={<SharedCapsule />}
         />
-
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
   );
