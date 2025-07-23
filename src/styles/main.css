@@ -240,3 +240,17 @@ body {
 .capsule-detail a:hover {
   text-decoration: underline;
 }
+
+.media-preview {
+  margin-top: 12px;
+}
+
+.media-preview img {
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+.media-preview audio {
+  width: 100%;
+  margin-top: 6px;
+}

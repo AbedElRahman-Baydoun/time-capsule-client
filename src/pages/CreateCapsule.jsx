@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { createCapsule } from '../services/capsuleService';
 import { useNavigate } from 'react-router-dom';
+import MediaPreview from '../components/MediaPreview';
 
 export default function CreateCapsule() {
   const [form, setForm] = useState({
@@ -83,6 +84,8 @@ export default function CreateCapsule() {
         </select>
 
         <input type="file" accept={mediaType + '/*'} onChange={e => setMedia(e.target.files[0])} />
+
+        <MediaPreview file={media} type={mediaType} />
 
         <button type="submit" disabled={loading}>
           {loading ? 'Creating...' : 'Create Capsule'}
