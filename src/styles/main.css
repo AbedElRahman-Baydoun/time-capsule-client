@@ -254,3 +254,34 @@ body {
   width: 100%;
   margin-top: 6px;
 }
+
+.mood-picker {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.mood-btn {
+  background: #eee;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70px;
+  transition: background 0.2s ease;
+}
+
+.mood-btn.active {
+  background-color: #4c6ef5;
+  color: white;
+}
+
+.mood-btn small {
+  font-size: 12px;
+  margin-top: 2px;
+}

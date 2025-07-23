@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { createCapsule } from '../services/capsuleService';
 import { useNavigate } from 'react-router-dom';
 import MediaPreview from '../components/MediaPreview';
-
+import MoodPicker from '../components/MoodPicker';
 export default function CreateCapsule() {
   const [form, setForm] = useState({
     title: '',
@@ -57,14 +57,10 @@ export default function CreateCapsule() {
         <input type="color" name="color" value={form.color} onChange={handleChange} />
 
         <label>Mood</label>
-        <select name="mood" value={form.mood} onChange={handleChange}>
-          <option value="happy">😊 Happy</option>
-          <option value="sad">😢 Sad</option>
-          <option value="excited">🤩 Excited</option>
-          <option value="nostalgic">🕰 Nostalgic</option>
-          <option value="angry">😡 Angry</option>
-          <option value="grateful">🙏 Grateful</option>
-        </select>
+        <MoodPicker
+            selected={form.mood}
+            onChange={value => setForm(prev => ({ ...prev, mood: value }))}
+        />
 
         <label>Reveal Date</label>
         <input type="datetime-local" name="reveal_at" value={form.reveal_at} onChange={handleChange} />
