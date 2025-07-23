@@ -33,6 +33,11 @@ export const deleteCapsule = async (id) => {
   return response.data;
 };
 
+export const exportCapsuleZip = async (id) => {
+  const response = await axios.post(`${API_URL}/capsules/${id}/export`, {}, authHeaders());
+  return response.data;
+}
+
 export const filterWallCapsules = async (filters = {}) => {
   const response = await axios.get(`${API_URL}/wall`, { params: filters });
   return response.data;
