@@ -1,15 +1,21 @@
 import { useEffect, useState } from 'react';
-import { getUserCapsules } from '../services/capsuleService';
-import { Link } from 'react-router-dom';
+import { filterWallCapsules } from '../services/capsuleService';
 
 export default function Home() {
   const [capsules, setCapsules] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [filters, setFilters] = useState({
+    country: '',
+    mood: '',
+    range: '',
+  });
+
   useEffect(() => {
     const fetchCapsules = async () => {
+      setLoading(true);
       try {
-        const data = await getUserCapsules();
+        const data = await filterWallCapsules(filters);
         setCapsules(data.capsules || []);
       } catch (err) {
         console.error('Failed to fetch capsules:', err);
@@ -19,30 +25,62 @@ export default function Home() {
     };
 
     fetchCapsules();
-  }, []);
+  }, [filters]);
+
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters(prev => ({ ...prev, [name]: value }));
+  };
 
   return (
     <div className="page-container">
-      <h2>My Capsules</h2>
+      <section className="hero-section">
+        <h1>Create your time capsule</h1>
+        <p>Write a message to your future self or loved ones, add photos and videos, and set a date for it to be revealed</p>
+        <a href="/capsules/create" className="cta-button">Create Capsule</a>
+      </section>
+
+      <h2>Recently revealed capsules</h2>
+
+      <div className="filters-bar">
+        <select name="country" value={filters.country} onChange={handleFilterChange}>
+          <option value="">Country</option>
+          <option value="LB">Lebanon</option>
+          <option value="US">USA</option>
+          <option value="UK">UK</option>
+          <option value="CA">Canada</option>
+        </select>
+
+        <select name="mood" value={filters.mood} onChange={handleFilterChange}>
+          <option value="">Mood</option>
+          <option value="happy">Happy</option>
+          <option value="nostalgic">Nostalgic</option>
+          <option value="grateful">Grateful</option>
+          <option value="sad">Sad</option>
+          <option value="excited">Excited</option>
+        </select>
+
+        <select name="range" value={filters.range} onChange={handleFilterChange}>
+          <option value="">Time Range</option>
+          <option value="past7">Last 7 Days</option>
+          <option value="future">Upcoming</option>
+          <option value="all">All Time</option>
+        </select>
+      </div>
 
       {loading && <p>Loading capsules...</p>}
-      {!loading && capsules.length === 0 && <p>You haven't created any capsules yet.</p>}
+      {!loading && capsules.length === 0 && <p>No capsules found for these filters.</p>}
 
       <div className="capsule-list">
         {capsules.map(capsule => (
-          <Link
-            to={`/capsules/${capsule.id}`}
-            key={capsule.id}
-            className="capsule-card"
-            style={{ backgroundColor: capsule.color || '#f2f2f2' }}
-          >
+          <div key={capsule.id} className="capsule-card" style={{ backgroundColor: capsule.color || '#2c2c2c' }}>
             <div className="capsule-header">
               <span className="emoji">{capsule.emoji || '📦'}</span>
-              <h3>{capsule.title || 'Untitled Capsule'}</h3>
+              <h3>{capsule.title || 'Untitled'}</h3>
             </div>
-            <p>{capsule.message?.slice(0, 80)}...</p>
-            <span className="reveal-date">Reveal: {new Date(capsule.reveal_at).toLocaleString()}</span>
-          </Link>
+            <p>{capsule.message?.slice(0, 70)}...</p>
+            <span className="reveal-date">Reveal Date: {new Date(capsule.reveal_at).toLocaleDateString()}</span>
+          </div>
         ))}
       </div>
     </div>
