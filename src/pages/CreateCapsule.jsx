@@ -3,6 +3,8 @@ import { createCapsule } from '../services/capsuleService';
 import { useNavigate } from 'react-router-dom';
 import MediaPreview from '../components/MediaPreview';
 import MoodPicker from '../components/MoodPicker';
+import ColorPicker from '../components/ColorPicker';
+
 export default function CreateCapsule() {
   const [form, setForm] = useState({
     title: '',
@@ -54,7 +56,10 @@ export default function CreateCapsule() {
         <input type="text" name="emoji" value={form.emoji} onChange={handleChange} maxLength={2} />
 
         <label>Color</label>
-        <input type="color" name="color" value={form.color} onChange={handleChange} />
+        <ColorPicker
+            selected={form.color}
+            onChange={(value) => setForm(prev => ({ ...prev, color: value }))}
+        />
 
         <label>Mood</label>
         <MoodPicker
