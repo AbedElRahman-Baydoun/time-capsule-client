@@ -1,4 +1,3 @@
-// src/App.js
 import AppRoutes from './routes';
 import Navbar from './components/Navbar';
 import { useLocation } from 'react-router-dom';
